@@ -21,7 +21,7 @@ class ConvBlock(nn.Module):
 
 class InceptionBlock(nn.Module):
 
-    def __init__(self, in_channels, out_channels, out_1x1, red_3x3, out_3x3, red_5x5, out_5x5, out_pool) -> None:
+    def __init__(self, in_channels, out_1x1, red_3x3, out_3x3, red_5x5, out_5x5, out_pool) -> None:
         super().__init__()
 
         self.branch_1 = ConvBlock(in_channels, out_1x1, kernel_size=1, padding=0)
@@ -57,7 +57,7 @@ class InceptionV1(nn.Module):
         super().__init__()
 
 
-        self.conv1 = ConvBlock(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+        self.conv1 = ConvBlock(3, 64, kernel_size=7, stride=2, padding=3)
         self.conv2 = ConvBlock(64, 192, kernel_size=3, stride=1, padding=1)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.inception3a = InceptionBlock(192, 64, 96, 128, 16, 32, 32)
