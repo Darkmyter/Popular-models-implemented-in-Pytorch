@@ -11,3 +11,4 @@ Implementation and light training examples[^1] for popular Deep Learning models 
 * [InceptionV1 (GoogLeNet)](Computer-vision/image-classification/inceptionv1-brain-tumor.ipynb): [paper](https://arxiv.org/pdf/1409.4842v1.pdf), trained on brain tumor MRI dataset from [kaggle](https://www.kaggle.com/datasets/preetviradiya/.brian-tumor-dataset)
 * [ResNet-50](./Computer-vision/image-classification/resnet-50-animal-10.ipynb): [paper](https://arxiv.org/abs/1512.03385), trained on Animal-10 dataset from [kaggle](https://www.kaggle.com/datasets/alessiocorrado99/animals10)
 * [EfficientNet](./Computer-vision/image-classification/efficient-net-car-damage.ipynb): [paper](https://arxiv.org/pdf/1905.11946.pdf), trained  on car damage severity from [kaggle](https://www.kaggle.com/datasets/alessiocorrado99/animals10)
+* [Vision Transformer](./Computer-vision/image-classification/vit-human-action-recognition.ipynb)
