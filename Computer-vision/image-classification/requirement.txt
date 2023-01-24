@@ -1,2 +1,4 @@
 torchinfo
 pytorch
+einops
+tqdm
