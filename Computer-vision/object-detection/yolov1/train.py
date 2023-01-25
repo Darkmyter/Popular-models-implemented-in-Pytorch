@@ -1,7 +1,6 @@
 import click
 import statistics
 import torch
-import torchvision.transforms as transforms
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from model import Yolov1
@@ -10,8 +9,6 @@ from dataset import get_VOCDataset
 from utils import (
     save_checkpoint,
     load_checkpoint,
-    get_bboxes,
-    mean_average_precision
 )
 from loss import YoloLoss
 
