@@ -14,7 +14,6 @@ class YoloLoss(nn.Module):
 
     def forward(self, predictions, target):
         batch_size = target.size()[0]
-        print(target.shape)
 
         predictions = predictions.reshape(-1, self.S, self.S, self.C + self.B*5)
         class_predictions = predictions[..., :self.C]
@@ -26,8 +25,7 @@ class YoloLoss(nn.Module):
 
         box_target = target[..., self.C:self.C+5]
         box_target = torch.cat((box_target, box_target), dim=3).reshape(-1, self.S, self.S, self.B, 5)
-        print(box_predictions.shape)
-        print(box_target.shape)
+
         iou = torch.cat(
             [
                 intersection_over_union(
