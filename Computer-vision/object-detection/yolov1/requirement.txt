@@ -1,0 +1,4 @@
+pytorch
+tqdm
+albumentations
+opencv-python

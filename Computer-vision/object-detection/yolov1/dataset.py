@@ -58,7 +58,37 @@ class VOCDataset(torch.utils.data.Dataset):
         return image, label_matrix
     
 
-def get_VOCDataset(params, augment):
+def label_to_list(label, split_size=7, num_classes=20, threshold=0.5):
+    
+    boxes = {
+        "bboxes": [],
+        "class_ids": [],
+        "confidence": []
+    }
+
+    for row in range(7):
+        for col in range(7):
+            if label.size()[2] == num_classes + 5 or label[row, col, num_classes] > label[row, col, num_classes+5]:
+                i = 0
+            else:
+                i = 1
+            
+            if label[row, col, num_classes + i*5] > threshold:
+                x, y, w, h =   label[row, col, (num_classes + i*5):(num_classes + (i+1)*5)].tolist()
+                x = (x + col)/split_size
+                y = (y + row)/split_size
+                w = w
+                h = h
+                class_index = torch.argmax(label[row, col, :num_classes])
+
+                boxes["bboxes"].append([x, y, w, h])
+                boxes["class_idx"].append(class_index)
+                boxes['confidence'].append(label[row, col, num_classes + i*5])
+
+        return boxes
+    
+
+def get_VOCDataset(csv_file, img_dir, label_dir, augment):
 
     if augment:
         transform = A.Compose([
@@ -78,9 +108,9 @@ def get_VOCDataset(params, augment):
         )
 
     return VOCDataset(
-        params['training_csv'],
+        csv_file=csv_file,
         transform=transform,
-        img_dir=params['img_dir'],
-        label_dir=params['label_dir']
+        img_dir=img_dir,
+        label_dir=label_dir
     )
         
