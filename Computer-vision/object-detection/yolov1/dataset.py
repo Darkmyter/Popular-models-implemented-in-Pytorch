@@ -1,7 +1,7 @@
 import torch
 import os
 import pandas as pd
-import PIL.Image as Image
+import cv2
 import albumentations as A
 
 class VOCDataset(torch.utils.data.Dataset):
@@ -22,26 +22,26 @@ class VOCDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
 
         label_path = self.label_dir/ self.annotations.iloc[index, 1]
-        label = {"class_ids": [], "bboxes": []}
+        labels = {"class_ids": [], "bboxes": []}
         with open(label_path) as f:
             for label in f.readlines():
                 class_label, x, y, width, height = [
                     float(x) if float(x) != int(float(x)) else int(x)
                     for x in label.replace("\n", "").split()
                 ]
-                label["class_ids"].append(int(class_label))
-                label["bboxes"].append([x, y, width, height])
+                labels["class_ids"].append(int(class_label))
+                labels["bboxes"].append([x, y, width, height])
 
         img_path = self.img_dir/ self.annotations.iloc[index, 0]
-        image = Image.open(img_path)
+        image = cv2.imread(str(img_path))
 
-        transformed = self.transform(image=image, boxes=label["bboxes"], class_ids=label["class_ids"])
+        transformed = self.transform(image=image, bboxes=labels["bboxes"], class_ids=labels["class_ids"])
 
         image = torch.tensor(transformed['image'], dtype=torch.float).permute(2,0,1) / 255
 
         label_matrix = torch.zeros((self.S, self.S, self.C + 5))
-        for box in transformed['bboxes']:
-            class_label, x, y, width, height = box.tolist()
+        for class_label, box in zip(labels["class_ids"], transformed['bboxes']):
+            x, y, width, height = box
             class_label = int(class_label)
             i, j = int(self.S * x), int(self.S * y)
             x_cell, y_cell = self.S * x - i, self.S * y - j
