@@ -122,7 +122,7 @@ def mean_average_precision(pred_bboxes, labels_bboxes, iou_threshold=0.5, num_cl
         count_bboxes = Counter([gt[0] for gt in ground_truths])
 
         # count_bboxes = {0: torch.tensor[0,0,0], 0: torch.tensor[0,0]}
-        for key, val in count_bboxes:
+        for key, val in count_bboxes.items():
             count_bboxes[key] = torch.zeros(val)
 
         # sort by box probability
@@ -140,13 +140,12 @@ def mean_average_precision(pred_bboxes, labels_bboxes, iou_threshold=0.5, num_cl
                 bbox for bbox in ground_truths if bbox[0] == detection[0]
             ]
 
-            num_gts = len(ground_truth_img)
-
             best_iou = 0
 
             for idx, gt in enumerate(ground_truth_img):
+                # print(detection[:3], gt[3:])
                 iou = intersection_over_union(
-                    torch.tensor(detection[:3]),
+                    torch.tensor(detection[3:]),
                     torch.tensor(gt[3:]),
                 )
 
