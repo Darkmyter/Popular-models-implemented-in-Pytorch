@@ -58,7 +58,6 @@ class YoloLoss(nn.Module):
             indicator_ij * torch.sign(box_target[..., 3:5]) * torch.sqrt(torch.abs(box_target[..., 3:5]) + 1e-6)
         )
 
-
         # For object loss
         object_loss = self.mse(
             indicator_ij * box_predictions[..., 0:1],
@@ -71,13 +70,11 @@ class YoloLoss(nn.Module):
             (1-indicator_ij) * box_target[..., 0:1]
         )
 
-
         # FOr class loss
         class_loss = self.mse(
             indicator_i * class_predictions, 
             indicator_i * class_target
         )
-
 
         loss = (
             xy_loss + wh_loss + object_loss + no_object_loss + class_loss
