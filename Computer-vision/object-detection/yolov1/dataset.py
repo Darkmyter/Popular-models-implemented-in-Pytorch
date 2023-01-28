@@ -60,11 +60,7 @@ class VOCDataset(torch.utils.data.Dataset):
 
 def label_to_list(label, split_size=7, num_classes=20, threshold=0.5):
     
-    boxes = {
-        "bboxes": [],
-        "class_ids": [],
-        "confidence": []
-    }
+    boxes =[]
 
     for row in range(7):
         for col in range(7):
@@ -74,17 +70,14 @@ def label_to_list(label, split_size=7, num_classes=20, threshold=0.5):
                 i = 1
             
             if label[row, col, num_classes + i*5] > threshold:
-                x, y, w, h =   label[row, col, (num_classes + i*5):(num_classes + (i+1)*5)].tolist()
+                x, y, w, h =   label[row, col, (num_classes + i*5 + 1):(num_classes + (i+1)*5)].tolist()
                 x = (x + col)/split_size
                 y = (y + row)/split_size
                 w = w
                 h = h
                 class_index = torch.argmax(label[row, col, :num_classes])
 
-                boxes["bboxes"].append([x, y, w, h])
-                boxes["class_idx"].append(class_index)
-                boxes['confidence'].append(label[row, col, num_classes + i*5])
-
+                boxes.append([class_index.item(), label[row, col, num_classes + i*5].item(), x, y, w, h])
         return boxes
     
 
