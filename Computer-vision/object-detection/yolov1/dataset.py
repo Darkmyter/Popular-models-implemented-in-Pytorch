@@ -58,7 +58,7 @@ class VOCDataset(torch.utils.data.Dataset):
         return image, label_matrix
     
 
-def label_to_list(label, split_size=7, num_classes=20, threshold=0.5):
+def label_to_list(label, split_size=7, num_classes=20, threshold=0.1):
     
     boxes =[]
 
@@ -68,17 +68,15 @@ def label_to_list(label, split_size=7, num_classes=20, threshold=0.5):
                 i = 0
             else:
                 i = 1
-            
+
             if label[row, col, num_classes + i*5] > threshold:
-                x, y, w, h =   label[row, col, (num_classes + i*5 + 1):(num_classes + (i+1)*5)].tolist()
+                x, y, w, h =  label[row, col, (num_classes + i*5 + 1):(num_classes + (i+1)*5)].tolist()
                 x = (x + col)/split_size
                 y = (y + row)/split_size
-                w = w
-                h = h
                 class_index = torch.argmax(label[row, col, :num_classes])
 
                 boxes.append([class_index.item(), label[row, col, num_classes + i*5].item(), x, y, w, h])
-        return boxes
+    return boxes
     
 
 def get_VOCDataset(csv_file, img_dir, label_dir, augment):
