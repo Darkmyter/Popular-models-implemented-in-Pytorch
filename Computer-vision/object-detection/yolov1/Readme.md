@@ -2,7 +2,7 @@
 
 YOLO is a single stage detector published by Joseph Redmon, Santosh Divvala, Ross Girshick and Ali Farhadi in their [paper](https://arxiv.org/abs/1506.02640) in 2015.
 
-The main idea of the paper is the fully connected head. It outputs $[S,S,C+B*5]$ tensor, where $S$ in the number of splits, $C$ the number of classes and $B$ in the number of predicted bounding boxes per cell. In fact, The image is treated as $S*S$ cells. For each cell we predict $B$ bounding boxes and apply non maximum suppression to determine the final predictions.
+The main idea of the paper is the fully connected head. It outputs $$[S,S,C+B*5]$$ tensor, where $S$ in the number of splits, $C$ the number of classes and $B$ in the number of predicted bounding boxes per cell. In fact, The image is treated as $$S*S$$ cells. For each cell we predict $B$ bounding boxes and apply non maximum suppression to determine the final predictions.
 
 <div align="center">
 
@@ -31,7 +31,7 @@ The last term focus on the probabilities of bounding boxes. The truth probabilit
 
 ## Installation
 
-Requirements are available in `requirements.txt``. Create a virtual environnement then install them:
+Requirements are available in `requirements.txt`. Create a virtual environnement, than install them:
 `pip install -r requirements.txt`
 
 The dataset can be found in [kaggle](https://www.kaggle.com/dataset/734b7bcb7ef13a045cbdd007a3c19874c2586ed0b02b4afc86126e89d00af8d2)
