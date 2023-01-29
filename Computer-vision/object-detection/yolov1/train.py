@@ -171,7 +171,7 @@ def main(model_name, new, seed):
         "pin_memory": True,
         "img_dir": Path("../../../data/voc/images"),
         "label_dir": Path("../../../data/voc/labels"),
-        "training_csv": Path("../../../data/voc/100examples.csv"),
+        "training_csv": Path("../../../data/voc/train.csv"),
         "test_csv": Path("../../../data/voc/test.csv"),
         "num_epochs_between_checkpoints": 5,
         "num_epochs_between_tests": 1,
